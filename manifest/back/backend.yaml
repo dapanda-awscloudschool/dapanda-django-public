@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dpd-be-django-dep
+  name: dpd-be-django-dep
+  namespace: dpd-be-ns
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dpd-be-django-dep
+  template:
+    metadata:
+      labels:
+        app: dpd-be-django-dep
+    spec:
+      containers:
+      - image: kimyoungwoo613/dapanda-backend-django:1.168
+        name: dpd-be-django-con
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: AWS_SECRET_ACCESS_KEY
+        - name: SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: SECRET_KEY
+        - name: ENGINE
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: ENGINE
+        - name: NAME
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: NAME
+        - name: USER
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: USER
+        - name: PASSWORD
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: PASSWORD
+        - name: HOST
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: HOST
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: PORT
+        - name: REDIS_BACKEND
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: REDIS_BACKEND
+        - name: REDIS_LOCATION
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: REDIS_LOCATION
+        - name: CLIENT_CLASS
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: CLIENT_CLASS
+        - name: REDIS_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+                name: dpd-be-django-cm
+                key: REDIS_PASSWORD
